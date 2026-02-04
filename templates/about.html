@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Safety Gear Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007bff; /* A blue for buttons/accents */
+            --secondary-color: #6c757d; /* Grey for secondary text */
+            --light-bg: #f8f9fa; /* Light background */
+            --dark-text: #343a40; /* Dark text */
+            --border-color: #dee2e6; /* Light border */
+            --footer-bg: #212529; 
+            --footer-text-color: #f8f9fa;
+        }
+        
+         /* Dark Mode Variables */
+    body.dark-mode {
+        --primary-color: #90CAF9; /* Lighter blue for dark mode */
+        --secondary-color: #BBBBBB; /* Lighter grey */
+        --light-bg: #1a1a1a; /* Dark background */
+        --dark-text: #7393B3; /* Light text */
+        --border-color: #444444; /* Darker border */
+        --background-color: #121212; /* Very dark background */
+        --card-background: #1e1e1e; /* Darker card background */
+        --form-bg: rgba(40, 40, 40, 0.85); /* Darker transparent form */
+        --footer-bg: #0d0d0d; /* Even darker footer */
+        --footer-text-color: #E0E0E0; /* Light footer text */
+        /* Home.html specific variables */
+        --button-hover-color: #64B5F6;
+        --text-color: #E0E0E0;
+        --light-text-color: #222; /* Dark text on dark background */
+        --input-border-color: #555;
+        --section-bg-light: #1a1a1a;
+        --section-bg-blue: #263238;
+        --testimonial-card-bg: #263238;
+        --box-shadow-light: 0 2px 4px rgba(255, 255, 255, 0.1);
+        --box-shadow-medium: 0 4px 8px rgba(255, 255, 255, 0.1);
+        --box-shadow-strong: 0 4px 10px rgba(255, 255, 255, 0.15);
+
+        /* Specific overrides for elements with fixed colors */
+        .header, .feature-box, .image-item, .upload-form-card, .login-container {
+            background-color: var(--card-background) !important;
+            box-shadow: var(--box-shadow-medium) !important;
+        }
+
+        .hero-right { /* Specific for home.html form */
+            background-color: var(--form-bg) !important;
+        }
+
+        .about-text-content h2, .feature-box h3, .gallery-title, .contact-info h2, .upload-form-card h2, .login-container h2,
+        .hero-left h1, .hero-left p, .hero-right label, .section-title, .section-subtitle, .feature-block h3, .feature-block p,
+        .hero-section .section-title-wrapper h2, .hero-section .section-title-wrapper p, section h2, section h3, section p {
+            color: var(--dark-text) !important;
+        }
+
+        .navbar-brand, .nav-links a, .logo {
+            color: var(--dark-text) !important;
+        }
+
+        /* Adjust specific elements for better dark mode visibility */
+        .hero-right input[type="text"],
+        .hero-right input[type="email"],
+        .hero-right input[type="tel"],
+        .hero-right textarea,
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="text"],
+        .form-group textarea,
+        .form-group input[type="file"] {
+            background-color: #333;
+            color: var(--dark-text);
+            border-color: var(--input-border-color);
+        }
+        .hero-right input::placeholder,
+        .hero-right textarea::placeholder,
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #aaa;
+        }
+    }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #fff;
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header/Navbar */
+        header {
+             display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background-color: #fff;
+            box-shadow: var(--box-shadow-light);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+         .header-left .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none; /* Ensure logo link doesn't have underline */
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .header-nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            margin-left: 25px;
+            transition: color 0.3s ease;
+        }
+
+        .header-nav a:hover,
+        .header-nav a.active {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background-color: var(--light-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--dark-text);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--secondary-color);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Features/Info Sections */
+        .features-section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 60px 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-box {
+            background-color: #e6f7ff; /* Light blue background as seen in image */
+            border-radius: 8px;
+            padding: 30px;
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Ensures content stays within the box */
+            height: 420px; /* Set a fixed height for uniform box length */
+        }
+
+        .feature-box h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--dark-text);
+        }
+
+        .feature-box p {
+            font-size: 16px;
+            color: var(--secondary-color);
+            line-height: 1.5;
+        }
+
+        .feature-image {
+            margin-top: 15px; /* Vertical spacing from text */
+            width: calc(100% - 60px); /* Explicitly set width to create internal 30px gaps on each side */
+            display: block; /* Ensures margin: auto works for centering */
+            margin-left: auto; /* Centers the image horizontally */
+            margin-right: auto; /* Centers the image horizontally */
+            border-radius: 5px;
+            max-height: 200px;
+            object-fit: cover;
+        }
+
+        /* About Section specific styling */
+        .about-intro-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            padding: 80px 20px;
+            flex-wrap: wrap;
+        }
+
+        .about-text-content {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+        }
+
+        .about-text-content h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: var(--dark-text);
+        }
+
+        .about-text-content p {
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+        }
+
+        .about-upload-btn {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .about-upload-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .image-and-quote-group {
+            flex: 1;
+            min-width: 300px;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Space between image card and quote box */
+            align-items: center; /* Center the items within this group */
+        }
+
+        .about-image-card {
+            width: 100%; /* Take full width of its parent group */
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative; /* For the quote overlay */
+            padding: 20px; /* Adjust padding if needed */
+        }
+
+        .about-image-card img {
+            width: 100%;
+            border-radius: 5px;
+            display: block;
+        }
+
+        .quote-box {
+            background-color: rgba(0, 123, 255, 0.8); /* Primary color with transparency */
+            color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            width: 100%; /* Take full width of its parent group */
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        .quote-box p {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #fff; /* Ensure text is white */
+        }
+
+        .quote-box strong {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* Contact Form Section (About page specific) */
+        .contact-form-section {
+            padding: 60px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+
+        .contact-form-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            flex: 2;
+            min-width: 400px;
+            max-width: 600px;
+        }
+
+        .contact-form-card h2 {
+            font-size: 32px;
+            margin-bottom: 25px;
+            color: var(--dark-text);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-text);
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea {
+            width: calc(100% - 20px);
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text-color);
+            padding: 40px 0;
+            text-align: left;
+        }
+
+        .footer .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            align-items: flex-start; /* Align grid items to the start */
+            justify-content: space-between;
+        }
+
+        .footer-col {
+            padding: 0 10px; /* Add some padding for columns */
+        }
+
+        .footer-col h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--footer-text-color);
+            font-weight: 700;
+        }
+
+        .footer-col p, .footer-col a {
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--footer-text-color);
+            text-decoration: none;
+        }
+
+        .footer-col a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-social-links {
+            margin-top: 20px;
+        }
+
+        .footer-social-links a {
+            color: var(--footer-text-color);
+            font-size: 24px;
+            margin-right: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-input-group {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-input-group input[type="email"] {
+            width: calc(100% - 20px); /* Account for padding */
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .footer-input-group input[type="email"]::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-input-group button {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            width: fit-content;
+        }
+
+        .footer-input-group button:hover {
+            background-color: #0056b3;
+        }
+
+        .footer-copyright {
+            grid-column: 1 / -1; /* Span across all columns */
+            text-align: center;
+            margin-top: 40px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-links {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .nav-links li {
+                margin: 0 15px 10px;
+            }
+            .go-live-btn {
+                margin-top: 15px;
+            }
+            .hero h1 {
+                font-size: 36px;
+            }
+            .hero p {
+                font-size: 16px;
+            }
+            .features-section,
+            .about-intro-section,
+            .contact-form-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            .feature-box,
+            .about-text-content,
+            .image-and-quote-group, /* Adjusted this */
+            .contact-form-card {
+                min-width: unset;
+                max-width: 100%;
+            }
+            .contact-form-card {
+                padding: 25px;
+            }
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .social-icons {
+                margin-top: 10px;
+                margin-bottom: 20px;
+            }
+            .social-icons a {
+                margin: 0 10px;
+            }
+            .footer-email-input {
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <a href="/" class="logo">Safora</a>
+        </div>
+            <nav class="header-nav">
+                <a href="/">Home</a>
+                <a href="/upload">Upload</a>
+                <a href="/results">Results</a>
+                <a href="/about">About</a>
+                <a href="/login">Login</a>
+            </nav>
+            <button id="darkModeToggle" style="background: none; border: none; color: var(--dark-text); font-size: 24px; cursor: pointer; margin-left: 20px;">
+        <i class="fas fa-moon"></i> </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>About Safety Gear Detection</h1>
+                <p>Learn more about our mission to enhance safety through innovative AI technology for construction sites and industrial environments.</p>
+            </div>
+        </section>
+
+        <section class="about-intro-section container">
+            <div class="about-text-content">
+                <h2>Ensuring Safety Through Innovative Technology</h2>
+                <p>We create AI-driven applications for safety compliance, detecting helmets and boots in images to enhance workplace safety and accountability. Our cutting-edge computer vision models provide accurate and real-time analysis, helping organisations maintain a safer working environment. Our solutions are designed to be user-friendly, providing seamless image upload and clear results display.</p>
+                <a href="/upload" class="about-upload-btn">Upload Image Now</a>
+            </div>
+           <div class="image-and-quote-group">
+                <div class="about-image-card">
+                    <img src="{{ url_for('static', filename='image_3a4b7d.jpg') }}" alt="About Us Image">
+                </div>
+                <div class="quote-box">
+                    <p>"This app is a game changer!"</p>
+                    <strong>- John Doe</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="feature-box">
+                <h3>Detection Results</h3>
+                <p>View safety gear compliance for each individual detected, providing clear insights into adherence to safety protocols.</p>
+                <img src="{{ url_for('static', filename='image_3a4e64.jpg') }}" alt="Detection Results">
+            </div>
+            <div class="feature-box">
+                <h3>Real-time Analysis</h3>
+                <p>Instant feedback on helmet and boots compliance status, allowing for immediate corrective actions.</p>
+                <img src="{{ url_for('static', filename='image_3a4e45.jpg') }}" alt="Real-time Analysis">
+            </div>
+            <div class="feature-box">
+                <h3>User-Friendly UI</h3>
+                <p>Modern design for seamless image upload and results display, ensuring a smooth user experience.</p>
+                <img src="{{ url_for('static', filename='image_3a4e81.jpg') }}" alt="User-Friendly UI">
+            </div>
+            <div class="feature-box">
+                <h3>Image Upload</h3>
+                <p>Easily upload images for immediate safety detection results with our intuitive drag-and-drop interface.</p>
+                <img src="{{ url_for('static', filename='image_3974c.jpg') }}" alt="Image Upload">
+            </div>
+        </section>
+
+        <section class="contact-form-section">
+            <div class="contact-form-card">
+                <h2>Contact Us for Safety Detection</h2>
+                <p style="text-align: center; margin-bottom: 30px; color: var(--secondary-color);">Reach out for inquiries about our safety detection application.</p>
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="firstNameContact">Enter your first name</label>
+                        <input type="text" id="firstNameContact" name="firstName" placeholder="First name here">
+                    </div>
+                    <div class="form-group">
+                        <label for="emailContact">Enter your email address</label>
+                        <input type="email" id="emailContact" name="email" placeholder="Email address here">
+                    </div>
+                    <div class="form-group">
+                        <label for="messageContact">Describe your image upload*</label>
+                        <textarea id="messageContact" name="message" placeholder="Upload image details here" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Submit your image now</button>
+                </form>
+            </div>
+             <div style="flex: 1; min-width: 300px; max-width: 450px; text-align: center;">
+                <img src="{{ url_for('static', filename='image_3a4e2.jpg') }}" alt="Contact Us Image" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+            </div>
+        </section>
+
+    </main>
+  <footer class="footer">
+        <div class="container">
+            <div class="footer-col">
+                <h3>Safora</h3>
+                <p>Upload images for helmet and boot detection.</p>
+                <div class="footer-social-links">
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/facebook-new.png" alt="Facebook"></a>
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new--v1.png" alt="Instagram"></a>
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/tiktok--v1.png" alt="TikTok"></a>
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/twitter-squared.png" alt="Twitter/X"></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>RESULTS</h3>
+                <p>+1234567890</p>
+                <p>projectsteelplant@gmail.com</p>
+            </div>
+            <div class="footer-col">
+                <h3>DETECTION</h3>
+                <div class="footer-input-group">
+                    <input type="email" placeholder="Enter your email address here">
+                    <input type="email" placeholder="Your email for notifications">
+                    <button>Upload Image for Detection</button>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2025 All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+       document.addEventListener('DOMContentLoaded', () => {
+        const toggleButton = document.getElementById('darkModeToggle');
+        const currentTheme = localStorage.getItem('theme');
+
+        // Apply saved theme or default to light mode
+        if (currentTheme) {
+            document.body.classList.add(currentTheme);
+        } else {
+            document.body.classList.add('light-mode'); // Default to light if no preference
+        }
+
+        // Add click listener to the toggle button
+        if (toggleButton) {
+            toggleButton.addEventListener('click', () => {
+                let theme;
+                if (document.body.classList.contains('dark-mode')) {
+                    document.body.classList.remove('dark-mode');
+                    document.body.classList.add('light-mode');
+                    theme = 'light-mode';
+                } else {
+                    document.body.classList.remove('light-mode');
+                    document.body.classList.add('dark-mode');
+                    theme = 'dark-mode';
+                }
+                localStorage.setItem('theme', theme); // Save preference
+            });
+        }
+    });
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const currentPath = window.location.pathname.split('/').pop();
+
+            navLinks.forEach(link => {
+                // Determine the correct path to check against
+                let linkPath = link.getAttribute('href');
+                if (linkPath === 'index.html' || linkPath === '') { // Treat 'index.html' and root as 'home'
+                    linkPath = 'home.html';
+                }
+
+                if (currentPath === linkPath) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // Contact form submission (About page specific)
+            const contactFormAbout = document.querySelector('.contact-form-card form');
+            if (contactFormAbout) {
+                contactFormAbout.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Prevent default form submission
+
+                    const firstName = document.getElementById('firstNameContact').value.trim();
+                    const email = document.getElementById('emailContact').value.trim();
+                    const message = document.getElementById('messageContact').value.trim();
+
+                    if (email === '' || message === '') {
+                        showMessageBox('Please fill in all required fields (Email and Message).');
+                        return;
+                    }
+
+                    // Optional: More advanced email validation
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                        showMessageBox('Please enter a valid email address.');
+                        return; // Stop if email is invalid
+                    }
+
+                    console.log('--- About Page Contact Form Submission ---');
+                    console.log('First Name:', firstName);
+                    console.log('Email Address:', email);
+                    console.log('Message:', message);
+                    console.log('------------------------------------------');
+
+                    showMessageBox('Thank you for your message! We will get back to you soon.');
+                    contactFormAbout.reset(); // Clear the form
+                });
+            }
+
+            // Custom Message Box (instead of alert)
+            function showMessageBox(message) {
+                let messageBox = document.getElementById('customMessageBox');
+                if (!messageBox) {
+                    messageBox = document.createElement('div');
+                    messageBox.id = 'customMessageBox';
+                    messageBox.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        background-color: #333;
+                        color: white;
+                        padding: 15px 25px;
+                        border-radius: 8px;
+                        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                        z-index: 9999;
+                        opacity: 0;
+                        transition: opacity 0.3s ease-in-out;
+                        font-family: 'Roboto', sans-serif;
+                        font-size: 16px;
+                    `;
+                    document.body.appendChild(messageBox);
+                }
+                messageBox.textContent = message;
+                messageBox.style.opacity = '1';
+
+                setTimeout(() => {
+                    messageBox.style.opacity = '0';
+                }, 3000); // Message disappears after 3 seconds
+            }
+        });
+    </script>
+</body>
+</html>

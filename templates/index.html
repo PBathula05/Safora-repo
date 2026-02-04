@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Gear Detection App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+/* General Styling */
+:root {
+    /* Light Mode Colors */
+    --primary-color: #007bff; /* A blue for buttons/accents */
+    --secondary-color: #6c757d; /* Grey for secondary text */
+    --light-bg: #f8f9fa; /* Light background */
+    --dark-text: #343a40; /* Dark text */
+    --border-color: #dee2e6; /* Light border */
+    --background-color: #f8f9fa; /* General background */
+    --card-background: #e9ecef; /* Card background in light mode */
+    --dark-blue: #36506d; /* From testimonial card (light mode) */
+    --light-gray-border: #dee2e6;
+    --form-background: #fff; /* White for contact form */
+    --footer-bg: #212529; /* Dark background for footer */
+    --footer-text-color: #f8f9fa;
+    --star-color: gold;
+    --input-border-color: #ccc;
+    --button-hover-color: #0056b3;
+    --light-text-color: #f8f8f8; /* Used for text on dark backgrounds */
+    --section-bg-light: #f9f9f9;
+    --section-bg-blue: #e0f2f7;
+    --testimonial-card-bg: #e0f2f7;
+
+    /* Header Specific Colors (Light Mode) */
+    --header-bg: #fff;
+    --navbar-text-color: #343a40;
+    --navbar-brand-color: #007bff;
+    --nav-link-hover-color: #0056b3;
+}
+
+/* Dark Mode Variables - Applied when body has 'dark-mode' class */
+body.dark-mode {
+    --primary-color: #90CAF9; /* Lighter blue for dark mode */
+    --secondary-color: #BBBBBB; /* Lighter grey */
+    --light-bg: #1a1a2e; /* Dark background */
+    --dark-text: #7393B3; /* Light text */
+    --border-color: #0f3460; /* Dark border */
+    --background-color: #1a1a2e; /* General dark background */
+    --card-background: #16213e; /* Card background in dark mode */
+    --dark-blue: #a0c4ff; /* Lighter blue for dark mode testimonial */
+    --light-gray-border: #0f3460;
+    --form-background: #16213e; /* Darker background for forms */
+    --footer-bg: #111; /* Even darker footer */
+    --footer-text-color: #aaa;
+    --star-color: gold; /* Stays same */
+    --input-border-color: #555;
+    --button-hover-color: #64B5F6;
+    --light-text-color: #333; /* Used for text on light backgrounds in dark mode */
+    --section-bg-light: #2c2c2c;
+    --section-bg-blue: #1a3a4a;
+    --testimonial-card-bg: #1a3a4a;
+
+    /* Header Specific Colors (Dark Mode) */
+    --header-bg: #16213e; /* Dark header background */
+    --navbar-text-color: #E0E0E0; /* Light text */
+    --navbar-brand-color: #90CAF9; /* Lighter blue brand */
+    --nav-link-hover-color: #64B5F6; /* Lighter blue hover */
+}
+
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--background-color);
+    color: var(--dark-text);
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for dark mode */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header/Navbar */
+header {
+    background-color: var(--header-bg); /* Use CSS variable */
+    padding: 15px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--navbar-brand-color); /* Use CSS variable */
+    text-decoration: none;
+    transition: color 0.3s ease; /* Smooth transition */
+}
+
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: var(--navbar-text-color); /* Use CSS variable */
+    font-weight: 500;
+    font-size: 1.1rem;
+    padding: 5px 0;
+    position: relative;
+    transition: color 0.3s ease; /* Smooth transition */
+}
+
+.nav-links li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--nav-link-hover-color); /* Use CSS variable */
+    transition: width 0.3s ease-in-out;
+}
+
+.nav-links li a:hover::after,
+.nav-links li a.active::after {
+    width: 100%;
+}
+
+.nav-links li a:hover {
+    color: var(--nav-link-hover-color); /* Use CSS variable */
+}
+
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--navbar-text-color); /* Inherits text color */
+    transition: color 0.3s ease;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.dark-mode-toggle:hover {
+    color: var(--nav-link-hover-color);
+    background-color: rgba(0, 0, 0, 0.05); /* Slight hover background in light mode */
+}
+
+body.dark-mode .dark-mode-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Slight hover background in dark mode */
+}
+
+/* Hero Section (Common) */
+.hero-section {
+    background-color: var(--background-color);
+    color: var(--dark-text);
+    padding: 60px 0;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.hero-section .section-title-wrapper h2 {
+    font-size: 44px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.hero-section .section-title-wrapper p {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+}
+
+/* Index Page Specific Styles */
+.index-page {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: var(--background-color);
+    color: var(--dark-text);
+    min-height: calc(100vh - 180px); /* Adjust based on header/footer height */
+}
+
+.index-page h1 {
+    font-size: 2.8rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.index-page p {
+    font-size: 1.2rem;
+    color: var(--dark-text);
+    margin-bottom: 40px;
+}
+
+.link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto 50px auto;
+}
+
+.link-item {
+    background-color: var(--card-background);
+    color: var(--dark-text);
+    padding: 30px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 120px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+}
+
+.link-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    color: var(--primary-color);
+}
+
+.login-section {
+    margin-top: 50px;
+    padding: 30px;
+    background-color: var(--card-background);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-section p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: var(--dark-text);
+}
+
+.login-link {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.login-link:hover {
+    background-color: var(--button-hover-color);
+}
+
+
+/* Footer Styling */
+footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text-color);
+    padding: 40px 0 20px;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-column h4 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.footer-column p,
+.footer-column a {
+    color: var(--footer-text-color);
+    text-decoration: none;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.footer-column a:hover {
+    text-decoration: underline;
+}
+
+.social-icons a {
+    font-size: 1.5rem;
+    margin-right: 15px;
+    color: var(--footer-text-color);
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: var(--primary-color);
+}
+
+.footer-email-input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-email-input input {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-background);
+    color: var(--dark-text);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.footer-upload-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.footer-upload-btn:hover {
+    background-color: var(--button-hover-color);
+}
+
+.copyright {
+    text-align: center;
+    margin-top: 20px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+
+/* Specific styles for Home page */
+.layout-dashboard {
+    /* Styles specific to home.html if any, but ensure header is common */
+}
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 80px 20px;
+    background-color: var(--background-color);
+    color: var(--dark-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.hero-left {
+    flex: 1;
+    padding-right: 40px;
+}
+
+.hero-left h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.hero-left p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.hero-buttons .button {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.hero-buttons .button.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.hero-buttons .button.primary:hover {
+    background-color: var(--button-hover-color);
+}
+
+.hero-buttons .button.secondary {
+    background: none;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    margin-left: 15px;
+}
+
+.hero-buttons .button.secondary:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.hero-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--card-background);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-right img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.features-section,
+.about-features-section,
+.testimonials-section,
+.contact-section {
+    padding: 60px 20px;
+    background-color: var(--section-bg-light);
+    color: var(--dark-text);
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.features-section.alt-background,
+.about-content { /* For about.html specific sections */
+    background-color: var(--section-bg-blue); /* Light blue background */
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto 50px auto;
+    line-height: 1.6;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.feature-item {
+    background-color: var(--card-background);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.feature-item i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.feature-item h3 {
+    font-size: 1.5rem;
+    color: var(--dark-text);
+    margin-bottom: 10px;
+}
+
+.feature-item p {
+    font-size: 1rem;
+    color: var(--dark-text);
+    line-height: 1.6;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+    background-color: var(--section-bg-blue);
+}
+
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.testimonial-card {
+    background-color: var(--testimonial-card-bg);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    text-align: left;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card p {
+    font-style: italic;
+    margin-bottom: 15px;
+    color: var(--dark-text);
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+}
+
+.testimonial-author img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+    border: 2px solid var(--primary-color);
+}
+
+.author-info h4 {
+    margin: 0;
+    color: var(--dark-text);
+}
+
+.author-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+}
+
+.stars {
+    color: var(--star-color);
+    margin-bottom: 10px;
+}
+
+/* Contact Section */
+.contact-section {
+    background-color: var(--section-bg-light);
+}
+
+.contact-form {
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: var(--form-background);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-form .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--dark-text);
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: calc(100% - 22px); /* Account for padding and border */
+    padding: 12px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: var(--background-color); /* Use general background color for inputs */
+    color: var(--dark-text);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.contact-form button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: var(--button-hover-color);
+}
+
+/* Dashboard Page (home.html) specific styles */
+.layout-dashboard {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.dashboard-main {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.card {
+    background-color: var(--card-background);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    text-align: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card h3 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: var(--dark-text);
+    font-size: 1rem;
+}
+
+.metrics-chart {
+    background-color: var(--card-background);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    margin-bottom: 40px;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.metrics-chart h3 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.recent-activity {
+    background-color: var(--card-background);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.recent-activity h3 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.activity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.activity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border-color);
+    color: var(--dark-text);
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-item .date {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+}
+
+
+/* Upload Page (upload.html) Specific Styles */
+.upload-container {
+    background-color: var(--background-color);
+    color: var(--dark-text);
+    padding: 50px 20px;
+    text-align: center;
+    min-height: calc(100vh - 180px); /* Adjust based on header/footer height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-box {
+    background-color: var(--card-background);
+    border: 2px dashed var(--primary-color);
+    border-radius: 15px;
+    padding: 40px;
+    margin-top: 30px;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.upload-box.dragover {
+    background-color: var(--section-bg-blue);
+    border-color: var(--button-hover-color);
+}
+
+.upload-box i {
+    font-size: 4rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.upload-box p {
+    font-size: 1.2rem;
+    color: var(--dark-text);
+    margin-bottom: 10px;
+}
+
+.upload-box input[type="file"] {
+    display: none;
+}
+
+.upload-button-group {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.upload-button-group button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.upload-button-group button:hover {
+    background-color: var(--button-hover-color);
+}
+
+#previewContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 30px;
+    justify-content: center;
+    max-width: 800px;
+}
+
+.image-preview {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--card-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-image {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.remove-image:hover {
+    background-color: red;
+}
+
+/* Result Page (result.html) Specific Styles */
+.result-page-container {
+    padding: 50px 20px;
+    background-color: var(--background-color);
+    color: var(--dark-text);
+    min-height: calc(100vh - 180px);
+}
+
+.result-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.result-card {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.result-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.result-content {
+    padding: 20px;
+}
+
+.result-content h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.result-content p {
+    font-size: 0.95rem;
+    color: var(--dark-text);
+    margin-bottom: 5px;
+}
+
+.result-content .status-good {
+    color: green;
+    font-weight: bold;
+}
+
+.result-content .status-bad {
+    color: red;
+    font-weight: bold;
+}
+
+/* About Page (about.html) Specific Styles */
+.about-hero {
+    background-color: var(--section-bg-blue);
+    padding: 80px 20px;
+    text-align: center;
+    color: var(--dark-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.about-hero h1 {
+    font-size: 3.2rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.about-hero p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.about-content {
+    padding: 60px 20px;
+    background-color: var(--background-color);
+    color: var(--dark-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.about-section {
+    max-width: 900px;
+    margin: 0 auto 50px auto;
+    padding: 20px;
+    background-color: var(--card-background);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-section h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.about-section p {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.team-member {
+    background-color: var(--section-bg-light);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-member img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid var(--primary-color);
+}
+
+.team-member h3 {
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.team-member p {
+    font-size: 0.95rem;
+    color: var(--secondary-color);
+}
+
+/* Login Page (login.html) Specific Styles */
+.login-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--background-color);
+    color: var(--dark-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.login-container {
+    background-color: var(--card-background);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-container h2 {
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: 25px;
+}
+
+.login-form .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--dark-text);
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: calc(100% - 22px); /* Account for padding and border */
+    padding: 12px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: var(--background-color); /* Use general background color for inputs */
+    color: var(--dark-text);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.login-form button {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-weight: 700;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.login-form button:hover {
+    background-color: var(--button-hover-color);
+}
+
+.forgot-password,
+.register-link {
+    margin-top: 15px;
+    font-size: 0.95rem;
+}
+
+.forgot-password a,
+.register-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.forgot-password a:hover,
+.register-link a:hover {
+    color: var(--button-hover-color);
+    text-decoration: underline;
+}
+
+/* Custom Message Box - consolidated from individual JS files */
+#customMessageBox {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-bottom: 10px;
+    }
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+    }
+    .dark-mode-toggle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 20px;
+    }
+    .hero-left {
+        padding-right: 0;
+        margin-bottom: 30px;
+    }
+    .hero-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .hero-buttons .button.secondary {
+        margin-left: 0;
+    }
+    .footer-content {
+        flex-direction: column;
+    }
+    .footer-column {
+        min-width: unset;
+        width: 100%;
+        text-align: center;
+    }
+    .social-icons {
+        justify-content: center;
+        display: flex;
+        margin-top: 10px;
+    }
+    .footer-email-input {
+        align-items: center;
+    }
+    .footer-email-input input,
+    .footer-upload-btn {
+        width: 80%;
+    }
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .login-container, .contact-form, .upload-box {
+        padding: 30px;
+    }
+    .link-grid {
+        grid-template-columns: 1fr;
+    }
+    .about-section {
+        padding: 15px;
+    }
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+    .nav-links li a {
+        font-size: 1rem;
+    }
+    .hero-left h1 {
+        font-size: 2.5rem;
+    }
+    .hero-left p {
+        font-size: 1rem;
+    }
+    .section-title {
+        font-size: 2rem;
+    }
+    .section-subtitle {
+        font-size: 0.9rem;
+    }
+    .feature-item h3 {
+        font-size: 1.3rem;
+    }
+    .testimonial-card {
+        padding: 20px;
+    }
+    .testimonial-author img {
+        width: 50px;
+        height: 50px;
+    }
+    .contact-form input, .contact-form textarea {
+        font-size: 0.9rem;
+    }
+}
+</style>
+</head>
+<body class="layout-centered layout-index">
+    <header>
+        <div class="navbar">
+            <a href="/" class="navbar-brand">Safora</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/home">Dashboard</a></li>
+                    <li><a href="/upload">Upload</a></li>
+                    <li><a href="/results">Results</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/login">Login</a></li>
+                </ul>
+            </nav>
+            <button id="darkModeToggle" class="dark-mode-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="container index-page">
+        <h1>Safety Gear Detection App</h1>
+        <p>Navigate through the various sections of our application.</p>
+
+        <div class="link-grid">
+            <a href="/home" class="link-item">Dashboard</a>
+            <a href="/upload" class="link-item">Image Upload</a>
+            <a href="/results" class="link-item">Detection Results</a>
+            <a href="/about" class="link-item">About Us</a>
+        </div>
+
+        <div class="login-section">
+            <p>Already a user or need to access more features?</p>
+            <a href="/login" class="login-link">Go to Login Page</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-column">
+                <h4>Safora</h4>
+                <p>Upload images for helmet and boot detection.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" aria-label="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>RESULTS</h4>
+                <p>+1234567890</p>
+                <p><a href="mailto:-projectsteelplant@gmail.com">-projectsteelplant@gmail.com</a></p>
+            </div>
+            <div class="footer-column">
+                <h4>DETECTION</h4>
+                <div class="footer-email-input">
+                    <input type="email" placeholder="Your email for notifications">
+                    <button class="footer-upload-btn">Upload Image for Detection</button>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

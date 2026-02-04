@@ -1,0 +1,252 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Safety Gear Detection App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Your existing CSS for login-body, login-container, etc. */
+        /* Make sure all relevant styles from index.html are also available or linked */
+        /* General Styling */
+        :root {
+            /* Light Mode Colors */
+            --primary-color: #007bff; /* A blue for buttons/accents */
+            --secondary-color: #6c757d; /* Grey for secondary text */
+            --light-bg: #f8f9fa; /* Light background */
+            --dark-text: #343a40; /* Dark text */
+            --border-color: #dee2e6; /* Light border */
+            --background-color: #f8f9fa; /* General background */
+            --card-background: #e9ecef; /* Card background in light mode */
+            --dark-blue: #36506d; /* From testimonial card (light mode) */
+            --light-gray-border: #dee2e6;
+            --form-background: #fff; /* White for contact form */
+            --footer-bg: #212529; /* Dark background for footer */
+            --footer-text-color: #f8f9fa;
+            --star-color: gold;
+            --input-border-color: #ccc;
+            --button-hover-color: #0056b3;
+            --light-text-color: #f8f8f8; /* Used for text on dark backgrounds */
+            --section-bg-light: #f9f9f9;
+            --section-bg-blue: #e0f2f7;
+            --testimonial-card-bg: #e0f2f7;
+
+            /* Header Specific Colors (Light Mode) */
+            --header-bg: #fff;
+            --navbar-text-color: #343a40;
+            --navbar-brand-color: #007bff;
+            --nav-link-hover-color: #0056b3;
+        }
+
+        /* Dark Mode Variables - Applied when body has 'dark-mode' class */
+        body.dark-mode {
+            --primary-color: #90CAF9; /* Lighter blue for dark mode */
+            --secondary-color: #BBBBBB; /* Lighter grey */
+            --light-bg: #1a1a2e; /* Dark background */
+            --dark-text: #7393B3; /* Light text */
+            --border-color: #0f3460; /* Dark border */
+            --background-color: #1a1a2e; /* General dark background */
+            --card-background: #16213e; /* Card background in dark mode */
+            --dark-blue: #a0c4ff; /* Lighter blue for dark mode testimonial */
+            --light-gray-border: #0f3460;
+            --form-background: #16213e; /* Darker background for forms */
+            --footer-bg: #111; /* Even darker footer */
+            --footer-text-color: #aaa;
+            --star-color: gold; /* Stays same */
+            --input-border-color: #555;
+            --button-hover-color: #64B5F6;
+            --light-text-color: #333; /* Used for text on light backgrounds in dark mode */
+            --section-bg-light: #2c2c2c;
+            --section-bg-blue: #1a3a4a;
+            --testimonial-card-bg: #1a3a4a;
+
+            /* Header Specific Colors (Dark Mode) */
+            --header-bg: #16213e; /* Dark header background */
+            --navbar-text-color: #E0E0E0; /* Light text */
+            --navbar-brand-color: #90CAF9; /* Lighter blue brand */
+            --nav-link-hover-color: #64B5F6; /* Lighter blue hover */
+        }
+
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--background-color);
+            color: var(--dark-text);
+            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for dark mode */
+        }
+
+        /* Login Page (login.html) Specific Styles */
+        .login-body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--background-color);
+            color: var(--dark-text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .login-container {
+            background-color: var(--card-background);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-container h2 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+        }
+
+        .login-form .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: calc(100% - 22px); /* Account for padding and border */
+            padding: 12px;
+            border: 1px solid var(--input-border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: var(--background-color); /* Use general background color for inputs */
+            color: var(--dark-text);
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        .login-form button {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            font-weight: 700;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-form button:hover {
+            background-color: var(--button-hover-color);
+        }
+
+        .forgot-password,
+        .register-link {
+            margin-top: 15px;
+            font-size: 0.95rem;
+        }
+
+        .forgot-password a,
+        .register-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover,
+        .register-link a:hover {
+            color: var(--button-hover-color);
+            text-decoration: underline;
+        }
+
+        /* Custom Message Box - consolidated from individual JS files */
+        #customMessageBox {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body class="login-body">
+    <div id="customMessageBox"></div>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form class="login-form" method="POST" action="{{ url_for('login') }}">
+            <input type="hidden" name="next" value="{{ next if next else '' }}">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div class="forgot-password">
+            <a href="#">Forgot Password?</a>
+        </div>
+        <div class="register-link">
+            Don't have an account? <a href="#">Register here</a>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script> {# Assuming a script.js in static folder #}
+    <script>
+        // Custom message box function (if not already in script.js)
+        function showMessageBox(message, type = 'info') {
+            const msgBox = document.getElementById('customMessageBox');
+            msgBox.textContent = message;
+            msgBox.className = ''; // Clear previous classes
+            msgBox.classList.add('alert', `alert-${type}`); // Add basic alert and type class for styling
+            msgBox.style.opacity = 1;
+            setTimeout(() => {
+                msgBox.style.opacity = 0;
+            }, 3000);
+        }
+
+        // Example of how to use showMessageBox for flashed messages (if not handled by Flask-Messages styling)
+        document.addEventListener('DOMContentLoaded', function() {
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        showMessageBox("{{ message }}", "{{ category }}");
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        });
+    </script>
+</body>
+</html>

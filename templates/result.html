@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styling */
+        :root {
+            --primary-color: #007bff; /* Example blue */
+            --secondary-color: #6c757d; /* Example gray */
+            --text-color: #333;
+            --background-color: #f8f9fa;
+            --card-background: #e9ecef;
+            --dark-blue: #36506d; /* From testimonial card */
+            --light-gray-border: #dee2e6;
+            --form-background: #fff; /* White for contact form */
+            --footer-bg: #212529; /* Dark background for footer */
+            --footer-text-color: #f8f9fa;
+        }
+
+         /* Dark Mode Variables */
+        body.dark-mode {
+        --primary-color: #90CAF9; /* Lighter blue for dark mode */
+        --secondary-color: #BBBBBB; /* Lighter grey */
+        --light-bg: #1a1a1a; /* Dark background */
+        --dark-text: #7393B3; /* Light text */
+        --border-color: #444444; /* Darker border */
+        --background-color: #121212; /* Very dark background */
+        --card-background: #1e1e1e; /* Darker card background */
+        --form-bg: rgba(40, 40, 40, 0.85); /* Darker transparent form */
+        --footer-bg: #0d0d0d; /* Even darker footer */
+        --footer-text-color: #E0E0E0; /* Light footer text */
+        /* Home.html specific variables */
+        --button-hover-color: #64B5F6;
+        --text-color: #E0E0E0;
+        --light-text-color: #222; /* Dark text on dark background */
+        --input-border-color: #555;
+        --section-bg-light: #1a1a1a;
+        --section-bg-blue: #263238;
+        --testimonial-card-bg: #263238;
+        --box-shadow-light: 0 2px 4px rgba(255, 255, 255, 0.1);
+        --box-shadow-medium: 0 4px 8px rgba(255, 255, 255, 0.1);
+        --box-shadow-strong: 0 4px 10px rgba(255, 255, 255, 0.15);
+
+        /* Specific overrides for elements with fixed colors */
+        .header, .feature-box, .image-item, .upload-form-card, .login-container {
+            background-color: var(--card-background) !important;
+            box-shadow: var(--box-shadow-medium) !important;
+        }
+
+        .hero-right { /* Specific for home.html form */
+            background-color: var(--form-bg) !important;
+        }
+
+        .about-text-content h2, .feature-box h3, .gallery-title, .contact-info h2, .upload-form-card h2, .login-container h2,
+        .hero-left h1, .hero-left p, .hero-right label, .section-title, .section-subtitle, .feature-block h3, .feature-block p,
+        .hero-section .section-title-wrapper h2, .hero-section .section-title-wrapper p, section h2, section h3, section p {
+            color: var(--dark-text) !important;
+        }
+
+        .navbar-brand, .nav-links a, .logo {
+            color: var(--dark-text) !important;
+        }
+
+        /* Adjust specific elements for better dark mode visibility */
+        .hero-right input[type="text"],
+        .hero-right input[type="email"],
+        .hero-right input[type="tel"],
+        .hero-right textarea,
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="text"],
+        .form-group textarea,
+        .form-group input[type="file"] {
+            background-color: #333;
+            color: var(--dark-text);
+            border-color: var(--input-border-color);
+        }
+        .hero-right input::placeholder,
+        .hero-right textarea::placeholder,
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #aaa;
+        }
+    }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Header */
+        .header {
+            background-color: #fff;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header .container {
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin: 0;
+            text-decoration: none; /* Ensure logo link doesn't have underline */
+        }
+
+        .nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .nav ul li {
+            margin-left: 30px;
+        }
+
+        .nav ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .nav ul li a:hover,
+        .nav ul li a.active {
+            color: var(--primary-color);
+        }
+
+        /* Section Styling (General) */
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--light-gray-border);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        section .container {
+            align-items: flex-start; /* Align content to the top within sections */
+            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+        }
+
+        section h2, section h3 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        section p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center; /* Center the heading and paragraph */
+        }
+
+        .hero-section .container {
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px; /* Space between heading and content */
+        }
+
+        .hero-section .section-title-wrapper {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 40px; /* Space between the main title and the hero content below */
+        }
+
+        .hero-section .section-title-wrapper h2 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        .hero-section .section-title-wrapper p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto; /* Center the paragraph */
+            color: var(--text-color);
+        }
+
+
+        .hero-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .hero-image {
+            flex: 1;
+            min-width: 400px;
+            text-align: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-text-right {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        /* Results Section */
+        .results-section {
+            padding: 60px 20px;
+            text-align: center;
+            background-color: var(--light-bg); /* Different background for this section */
+            min-height: auto; /* Allow height to adjust */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .results-container {
+            background-color: var(--card-background);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+            margin-top: 30px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .results-container h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .results-container h2::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 4px;
+            background: var(--primary-color);
+            bottom: -10px;
+            left: 20%;
+            border-radius: 2px;
+        }
+
+        .results-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .result-image-box {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px; /* Minimum height for the image box */
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .result-image-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+            border-radius: 8px; /* Slightly smaller radius inside box */
+        }
+
+        .result-details {
+            text-align: left;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .result-details h3 {
+            font-size: 1.8rem;
+            color: var(--dark-blue);
+            margin-bottom: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .result-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .result-item {
+            font-size: 1.1rem;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--light-gray-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-color);
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-item i {
+            font-size: 1.2rem;
+        }
+
+        .result-item.text-green {
+            color: var(--green-color);
+        }
+
+        .result-item.text-red {
+            color: var(--red-color);
+        }
+
+        .no-results-message {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-top: 20px;
+        }
+
+        /* Features Section */
+        .features-section .container {
+            flex-direction: row-reverse; /* Image on left, text on right */
+            gap: 40px;
+        }
+
+        .feature-image, .feature-text {
+            flex: 1;
+            min-width: 45%; /* Adjust as needed */
+        }
+
+        .feature-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: var(--background-color);
+        }
+
+        .testimonials-section .container {
+            justify-content: center;
+            gap: 40px;
+        }
+
+        /* New wrapper for combining image and card */
+        .testimonial-combined-content {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align content to the top */
+            gap: 40px; /* Space between image and card */
+            width: 100%; /* Take full width of its parent container */
+            max-width: 1000px; /* Limit overall width */
+            margin: 0 auto; /* Center the combined block */
+            background-color: #fff; /* White background for the combined block */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px; /* Padding inside the combined block */
+            box-sizing: border-box; /* Include padding in width */
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+
+        .testimonial-image {
+            flex: 1;
+            min-width: 300px; /* Allow image to shrink */
+            max-width: 45%; /* Limit max width for image */
+            text-align: center;
+        }
+
+        .testimonial-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block; /* Remove extra space below image */
+        }
+
+        .testimonial-card {
+            background-color: var(--dark-blue); /* Dark blue from the image */
+            color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 300px; /* Allow card to shrink */
+            max-width: 45%; /* Limit max width for card */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .testimonial-card .stars {
+            color: gold;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #fff; /* Ensure text is white */
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .reviewer-avatar {
+            width: 50px;
+            height: 50px;
+            background-color: #ccc; /* Placeholder for avatar */
+            border-radius: 50%;
+            margin-right: 15px;
+            background-image: url("{{ url_for('static', filename='JD.jpg') }} ");/* Replace with actual avatar */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .reviewer-name {
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 0; /* Remove top/bottom padding as it's full height */
+            position: relative;
+            height: 100vh; /* Make it full viewport height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Hide overflow from background image */
+        }
+
+        .contact-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('text=Contact+Background.jpg'); /* Background image for contact section */
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.4); /* Darken the background image slightly */
+            z-index: 1;
+        }
+
+        .contact-content {
+            position: relative;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 600px;
+            width: 90%; /* Responsive width */
+        }
+
+        .contact-content h2 {
+            font-size: 36px;
+            color: var(--text-color);
+            margin-bottom: 15px;
+        }
+
+        .contact-content p {
+            font-size: 18px;
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .contact-form label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            width: calc(100% - 20px); /* Account for padding */
+            padding: 12px 10px;
+            border: 1px solid var(--light-gray-border);
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+
+        .contact-form textarea {
+            resize: vertical; /* Allow vertical resizing */
+            min-height: 100px;
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: #aaa;
+        }
+
+        .contact-form button {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+            width: auto; /* Auto width for button */
+            margin-top: 20px;
+        }
+
+        .contact-form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text-color);
+            padding: 40px 0;
+            text-align: left;
+        }
+
+        .footer .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            align-items: flex-start; /* Align grid items to the start */
+            justify-content: space-between;
+        }
+
+        .footer-col {
+            padding: 0 10px; /* Add some padding for columns */
+        }
+
+        .footer-col h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--footer-text-color);
+            font-weight: 700;
+        }
+
+        .footer-col p, .footer-col a {
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--footer-text-color);
+            text-decoration: none;
+        }
+
+        .footer-col a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-social-links {
+            margin-top: 20px;
+        }
+
+        .footer-social-links a {
+            color: var(--footer-text-color);
+            font-size: 24px;
+            margin-right: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-input-group {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-input-group input[type="email"] {
+            width: calc(100% - 20px); /* Account for padding */
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .footer-input-group input[type="email"]::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-input-group button {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            width: fit-content;
+        }
+
+        .footer-input-group button:hover {
+            background-color: #0056b3;
+        }
+
+        .footer-copyright {
+            grid-column: 1 / -1; /* Span across all columns */
+            text-align: center;
+            margin-top: 40px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav ul {
+                margin-top: 20px;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav ul li {
+                margin: 10px 0;
+            }
+
+            .hero-section .container,
+            .features-section .container,
+            .testimonials-section .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-content, .hero-image, .hero-text-right,
+            .feature-image, .feature-text {
+                min-width: unset;
+                width: 100%;
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            .hero-image img, .feature-image img {
+                max-width: 80%;
+            }
+
+            /* Responsive for testimonial-combined-content */
+            .testimonial-combined-content {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px; /* Adjust gap for stacked elements */
+                padding: 20px;
+            }
+
+            .testimonial-image, .testimonial-card {
+                min-width: unset;
+                max-width: 90%; /* Allow elements to take more width when stacked */
+                margin-bottom: 0; /* Remove extra margin */
+                text-align: center; /* Center content within these stacked blocks */
+            }
+
+            .testimonial-card {
+                align-items: center; /* Center content within the card too */
+            }
+            .testimonial-card p {
+                text-align: center; /* Center text in card when stacked */
+            }
+            .reviewer-info {
+                justify-content: center; /* Center reviewer info */
+            }
+
+
+            .contact-content {
+                padding: 30px;
+                width: 95%;
+            }
+
+            .footer .container {
+                grid-template-columns: 1fr; /* Stack columns on smaller screens */
+                text-align: center;
+            }
+
+            .footer-col {
+                padding: 0;
+            }
+
+            .footer-social-links {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 24px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            section h2 {
+                font-size: 32px;
+            }
+
+            section p {
+                font-size: 16px;
+            }
+
+            .hero-section .section-title-wrapper h2 {
+                font-size: 38px;
+            }
+
+            .hero-section .section-title-wrapper p {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header .container {
+                flex-direction: column;
+            }
+
+            .nav {
+                width: 100%;
+            }
+
+            .nav ul {
+                width: 100%;
+            }
+
+            .nav ul li {
+                width: 100%;
+                text-align: center;
+            }
+
+            .hero-image img, .feature-image img {
+                max-width: 100%;
+            }
+
+            .contact-form input[type="text"],
+            .contact-form input[type="email"],
+            .contact-form textarea {
+                width: 100%;
+            }
+
+            .footer-input-group input[type="email"] {
+                 width: 100%;
+            }
+            .hero-section .section-title-wrapper h2 {
+                font-size: 32px;
+            }
+            .hero-section .section-title-wrapper p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="/" class="logo">Safora</a>
+            <nav class="nav">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/upload">Upload</a></li>
+                    <li><a href="/result">Results</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/login">Login</a></li>
+                </ul>
+            </nav>
+            <button id="darkModeToggle" style="background: none; border: none; color: var(--dark-text); font-size: 24px; cursor: pointer; margin-left: 20px;">
+        <i class="fas fa-moon"></i> </button>
+            </div>
+    </header>
+
+    <main>
+    <section id="home" class="hero-section">
+        <div class="section-title-wrapper">
+            <h2>Safety Detection</h2>
+            <p>AI-powered app detects safety gear in uploaded images instantly.</p>
+        </div>
+        <div class="container">
+            <div class="hero-image">
+                <img src="{{ url_for('static', filename='image1.jpg') }}" alt="Person working in a lab">
+            </div>
+            <div class="hero-text-right">
+                <h3>Real-time Analysis</h3>
+                <p>Our application provides real-time analysis of safety gear compliance for individuals in images, ensuring safety standards are met effectively and efficiently for workplace environments.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="feature-text">
+                <h3>User-Friendly Interface</h3>
+                <p>The modern UI allows users to easily upload images and receive immediate feedback on safety gear compliance, enhancing user experience and promoting workplace safety awareness.</p>
+            </div>
+            <div class="feature-image">
+                <img src="{{ url_for('static', filename='image2.jpg') }}" alt="Workers with safety helmets">
+            </div>
+        </div>
+    </section>
+
+    <section id="detection-results" class="results-section">
+        <div class="results-container">
+            <h2>Detection Results</h2>
+            <div class="results-content">
+                <div class="result-image-box">
+                    {% if results and results.image_url %}
+                        <img id="detectedImage" src="{{ results.image_url }}" alt="Detected Image" style="max-width: 100%; height: auto; display: block;">
+                        <p id="imagePlaceholder" style="display: none;">No image to display. Please upload an image on the <a href="upload.html#upload-section">Upload page</a>.</p>
+                    {% else %}
+                        <img id="detectedImage" src="" alt="Detected Image" style="display: none;">
+                        <p id="imagePlaceholder">No image to display. Please upload an image on the <a href="upload.html#upload-section">Upload page</a>.</p>
+                    {% endif %}
+                </div>
+                <div class="result-details">
+                    <h3>Analysis Summary:</h3>
+                    <ul id="detectionSummary" class="result-list">
+                        {% if results and results.detections %}
+                            {% for detection in results.detections %}
+                                <li>**Label:** {{ detection.label }}, **Confidence:** {{ detection.confidence | float | round(2) }}</li>
+                            {% endfor %}
+                        {% else %}
+                            <li class="no-results-message">No results available.</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            {% if results %}
+            <p><strong>Original Filename:</strong> {{ results.filename }}</p>
+            <p><strong>Status:</strong> {{ results.status }}</p>
+            <p><strong>Timestamp:</strong> {{ results.timestamp }}</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <section id="testimonials" class="testimonials-section">
+        <div class="container">
+            <div class="testimonial-combined-content">
+                <div class="testimonial-image">
+                    <img src="{{ url_for('static', filename='image3.jpg') }}" alt="Woman in safety glasses">
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span><span>&#9733;</span>
+                    </div>
+                    <p>This app is incredibly helpful for ensuring safety compliance on job sites. Highly recommend it!</p>
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar"></div>
+                        <p class="reviewer-name">John Doe</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="contact-background"></div>
+        <div class="contact-content">
+            <h2>Contact Us</h2>
+            <p>Get in touch for support or inquiries about our application.</p>
+            <form class="contact-form" action="/contact" method="POST">
+                <div class="form-group">
+                    <label for="firstName">Enter your first name</label>
+                    <input type="text" id="firstName" name="firstName" placeholder="Type your first name here">
+                </div>
+                <div class="form-group">
+                    <label for="emailAddress">Enter your email address*</label>
+                    <input type="email" id="emailAddress" name="emailAddress" placeholder="Type your email here" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Describe your image upload*</label>
+                    <textarea id="message" name="message" placeholder="Type your message here" required></textarea>
+                </div>
+                <button type="submit">Submit your image now</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-col">
+                <h3>Safora</h3>
+                <p>Automating safety, one detection at a time.</p>
+                <div class="footer-social-links">
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/facebook-new.png" alt="Facebook"></a>
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new--v1.png" alt="Instagram"></a>
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/tiktok--v1.png" alt="TikTok"></a>
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/twitter-squared.png" alt="Twitter/X"></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>RESULTS</h3>
+                <p>+1234567890</p>
+                <p>projectsteelplant@gmail.com</p>
+            </div>
+            <div class="footer-col">
+                <h3>DETECTION</h3>
+                <div class="footer-input-group">
+                    <input type="email" placeholder="Enter your email address here">
+                    <input type="email" placeholder="Your email for notifications">
+                    <button>Upload Image for Detection</button>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2025 All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Re-include the showMessageBox and toggleDarkMode functions for result.html
+        function showMessageBox(message) {
+            let messageBox = document.getElementById('customMessageBox');
+            if (!messageBox) {
+                messageBox = document.createElement('div');
+                messageBox.id = 'customMessageBox';
+                messageBox.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background-color: #333;
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                    z-index: 9999;
+                    opacity: 0;
+                    transition: opacity 0.3s ease-in-out;
+                    font-family: 'Roboto', sans-serif;
+                    font-size: 16px;
+                `;
+                document.body.appendChild(messageBox);
+            }
+            messageBox.textContent = message;
+            messageBox.style.opacity = '1';
+
+            setTimeout(() => {
+                messageBox.style.opacity = '0';
+            }, 3000);
+        }
+
+        function toggleDarkMode() {
+            const body = document.body;
+            let theme;
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                theme = 'light-mode';
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                theme = 'dark-mode';
+            }
+            localStorage.setItem('theme', theme);
+            showMessageBox(`Theme changed to ${theme.replace('-', ' ')}!`);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const savedTheme = localStorage.getItem('theme');
+
+            if (savedTheme === 'dark-mode') {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('click', toggleDarkMode);
+            }
+
+            // Navigation active state logic for result.html
+            const navLinks = document.querySelectorAll('.nav ul li a');
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                const currentPage = window.location.pathname.split('/').pop();
+
+                // Corrected: Compare to '/results' not 'result.html'
+                if (href === '/results' || (href.startsWith('#') && currentPage === 'results')) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // --- REMOVE CLIENT-SIDE IMAGE / RESULTS HANDLING ---
+            // The image and detection results are now rendered by Jinja2 directly from Flask.
+            // No need for JavaScript to fetch them from sessionStorage or update the image src.
+            //
+            // const detectedImage = document.getElementById('detectedImage');
+            // const imagePlaceholder = document.getElementById('imagePlaceholder');
+            // const detectionSummary = document.getElementById('detectionSummary');
+            //
+            // const resultsData = sessionStorage.getItem('detectionResults'); // REMOVE THIS
+            // const imageData = sessionStorage.getItem('uploadedImage'); // REMOVE THIS
+            //
+            // // REMOVE THIS ENTIRE IF/ELSE BLOCK related to imageData:
+            // if (imageData) {
+            //     detectedImage.src = imageData;
+            //     detectedImage.style.display = 'block';
+            //     imagePlaceholder.style.display = 'none';
+            // } else {
+            //     detectedImage.style.display = 'none';
+            //     imagePlaceholder.style.display = 'block';
+            // }
+            //
+            // // REMOVE THIS ENTIRE IF (resultsData) BLOCK:
+            // if (resultsData) {
+            //     const results = JSON.parse(resultsData);
+            //     const imageUrl = results.image_url;
+            //     if (imageUrl) {
+            //         detectedImage.src = imageUrl;
+            //         detectedImage.style.display = 'block';
+            //         imagePlaceholder.style.display = 'none';
+            //     } else {
+            //         detectedImage.style.display = 'none';
+            //         imagePlaceholder.style.display = 'block';
+            //     }
+            //     detectionSummary.innerHTML = ''; // Clear placeholder
+            //     if (results.detections && results.detections.length > 0) {
+            //         results.detections.forEach(detection => {
+            //             const listItem = document.createElement('li');
+            //             const className = detection.class_name;
+            //             const confidence = (detection.confidence * 100).toFixed(2);
+            //             let iconHtml = '';
+            //             let colorClass = '';
+            //             if (className === 'helmet' || className === 'boot') {
+            //                 iconHtml = '<i class="fas fa-check-circle"></i>';
+            //                 colorClass = 'text-green';
+            //             } else if (className === 'no-helmet' || className === 'no-boot') {
+            //                 iconHtml = '<i class="fas fa-exclamation-triangle"></i>';
+            //                 colorClass = 'text-red';
+            //             } else {
+            //                 iconHtml = '<i class="fas fa-info-circle"></i>';
+            //             }
+            //             listItem.innerHTML = `${iconHtml} ${className} (Confidence: ${confidence}%)`;
+            //             listItem.classList.add('result-item', colorClass);
+            //             detectionSummary.appendChild(listItem);
+            //         });
+            //     } else {
+            //         const noResultsItem = document.createElement('li');
+            //         noResultsItem.textContent = 'No specific safety gear detected with high confidence.';
+            //         noResultsItem.classList.add('no-results-message');
+            //         detectionSummary.appendChild(noResultsItem);
+            //     }
+            // } else {
+            //     detectionSummary.innerHTML = '<li class="no-results-message">No detection results found. Please upload an image on the <a href="upload.html#upload-section">Upload page</a>.</li>';
+            // }
+
+            // Keep the contact form and footer button logic if you want them on this page.
+            // ... (your existing contact form and footer button JS)
+        });
+    </script>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul style="list-style:none; padding:0; max-width: 600px; margin: 20px auto;">
+      {% for category, message in messages %}
+        <li style="padding:10px; background-color:#d4edda; color:#155724; border-radius:5px; margin-bottom:10px; text-align: center;">
+          {{ message }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+</body>
+</html>

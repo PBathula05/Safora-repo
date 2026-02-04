@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety - AI Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007bff; /* Example blue */
+            --button-hover-color: #0056b3;
+            --text-color: #333;
+            --light-text-color: #f8f8f8;
+            --input-border-color: #ccc;
+            --form-bg: rgba(255, 255, 255, 0.85); /* Slightly transparent white */
+            --section-bg-light: #f9f9f9; /* Light background for new sections */
+            --section-bg-blue: #e0f2f7; /* Light blue background for the new section */
+            --testimonial-card-bg: #e0f2f7; /* Matching light blue for testimonial cards */
+            --footer-bg: #2c3e50; /* Dark blue/gray for footer */
+            --footer-text-color: #ecf0f1; /* Light text for footer */
+            --star-color: gold;
+            --card-border-radius: 8px;
+            --box-shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --box-shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --box-shadow-strong: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+         /* Dark Mode Variables */
+    body.dark-mode {
+        --primary-color: #90CAF9; /* Lighter blue for dark mode */
+        --secondary-color: #BBBBBB; /* Lighter grey */
+        --light-bg: #1a1a1a; /* Dark background */
+        --dark-text: #7393B3; /* Or #343a40 for a softer black */
+        --border-color: #444; /* Darker border */
+        --background-color: #121212; /* Very dark background */
+        --card-background: #1e1e1e; /* Darker card background */
+        --form-bg: rgba(40, 40, 40, 0.85); /* Darker transparent form */
+        --footer-bg: #0d0d0d; /* Even darker footer */
+        --footer-text-color: #E0E0E0; /* Light footer text */
+        /* Home.html specific variables */
+        --button-hover-color: #64B5F6;
+        --text-color: #E0E0E0;
+        --light-text-color: #222; /* Dark text on dark background */
+        --input-border-color: #555;
+        --section-bg-light: #1a1a1a;
+        --section-bg-blue: #263238;
+        --testimonial-card-bg: #263238;
+        --box-shadow-light: 0 2px 4px rgba(255, 255, 255, 0.1);
+        --box-shadow-medium: 0 4px 8px rgba(255, 255, 255, 0.1);
+        --box-shadow-strong: 0 4px 10px rgba(255, 255, 255, 0.15);
+
+        /* Specific overrides for elements with fixed colors */
+        .header, .feature-box, .image-item, .upload-form-card, .login-container {
+            background-color: var(--card-background) !important;
+            box-shadow: var(--box-shadow-medium) !important;
+        }
+
+        .hero-right { /* Specific for home.html form */
+            background-color: var(--form-bg) !important;
+        }
+
+        .about-text-content h2, .feature-box h3, .gallery-title, .contact-info h2, .upload-form-card h2, .login-container h2,
+        .hero-left h1, .hero-left p, .hero-right label, .section-title, .section-subtitle, .feature-block h3, .feature-block p,
+        .hero-section .section-title-wrapper h2, .hero-section .section-title-wrapper p, section h2, section h3, section p {
+            color: var(--dark-text) !important;
+        }
+
+        .navbar-brand, .nav-links a, .logo {
+            color: var(--dark-text) !important;
+        }
+
+        /* Adjust specific elements for better dark mode visibility */
+        .hero-right input[type="text"],
+        .hero-right input[type="email"],
+        .hero-right input[type="tel"],
+        .hero-right textarea,
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="text"],
+        .form-group textarea,
+        .form-group input[type="file"] {
+            background-color: #333;
+            color: var(--dark-text);
+            border-color: var(--input-border-color);
+        }
+        .hero-right input::placeholder,
+        .hero-right textarea::placeholder,
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #aaa;
+        }
+    }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--section-bg-light);
+            color: var(--text-color);
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background-color: #fff;
+            box-shadow: var(--box-shadow-light);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .header-left .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none; /* Ensure logo link doesn't have underline */
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .header-nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            margin-left: 25px;
+            transition: color 0.3s ease;
+        }
+
+        .header-nav a:hover,
+        .header-nav a.active {
+            color: var(--primary-color);
+        }
+
+
+        /* Hero Section */
+        .hero-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url("{{ url_for('static', filename='text=Background+Image.jpg') }}"); /* Replace with your forest image URL */
+            background-size: cover;
+            background-position: center;
+            color: var(--light-text-color);
+            padding-top: 80px;
+            box-sizing: border-box;
+        }
+
+        .hero-content {
+            display: flex;
+            width: 80%;
+            max-width: 1200px;
+            gap: 50px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hero-left {
+            flex: 1;
+            padding-right: 30px;
+        }
+
+        .stars {
+            font-size: 24px;
+            color: var(--star-color);
+            margin-bottom: 10px;
+        }
+
+        .hero-left h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            font-weight: 700;
+        }
+
+        .hero-left p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .start-button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .start-button:hover {
+            background-color: var(--button-hover-color);
+        }
+
+        .hero-right {
+            flex: 1;
+            background-color: var(--form-bg);
+            padding: 40px;
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--box-shadow-medium);
+        }
+
+        .hero-right .form-group {
+            margin-bottom: 20px;
+        }
+
+        .hero-right label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .hero-right input[type="text"],
+        .hero-right input[type="email"],
+        .hero-right input[type="tel"],
+        .hero-right textarea {
+            width: calc(100% - 20px);
+            padding: 12px 10px;
+            border: 1px solid var(--input-border-color);
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .hero-right textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .hero-right input::placeholder,
+        .hero-right textarea::placeholder {
+            color: #888;
+        }
+
+        .submit-button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background-color: var(--button-hover-color);
+        }
+
+        /* Shared Section Styles */
+        .section-padding {
+            padding: 60px 50px;
+        }
+
+        .section-title {
+            font-size: 38px;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        /* Section: Features/Description (from image 2) */
+        .features-section {
+            background-color: #fff;
+            padding: 60px 50px;
+            text-align: center;
+            box-shadow: var(--box-shadow-light);
+        }
+
+        .feature-blocks {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: left;
+            flex-wrap: wrap;
+        }
+
+        .feature-block {
+            flex: 1;
+            min-width: 300px;
+            max-width: 48%;
+            padding: 20px;
+        }
+
+        .feature-block h3 {
+            font-size: 24px;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .feature-block p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #555;
+        }
+
+        .features-image-container {
+            margin-top: 60px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: var(--card-border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow-medium);
+        }
+
+        .features-image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Section: Safety Gear Detection (from image 3) */
+        .detection-section {
+            background-color: var(--section-bg-blue);
+            padding: 60px 50px;
+            text-align: center;
+        }
+
+        .detection-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            max-width: 1100px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .detection-image {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            border-radius: var(--card-border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow-strong);
+        }
+
+        .detection-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .detection-features {
+            flex: 1;
+            min-width: 300px;
+            text-align: left;
+            padding: 20px;
+        }
+
+        .detection-feature-item {
+            margin-bottom: 30px;
+        }
+
+        .detection-feature-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detection-feature-item h3 {
+            font-size: 22px;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .detection-feature-item p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Section: Testimonials (from image 4) */
+        .testimonials-section {
+            background-color: #fff;
+            padding: 60px 50px;
+            text-align: center;
+        }
+
+        .testimonial-cards {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .testimonial-card {
+            background-color: var(--testimonial-card-bg);
+            padding: 30px;
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--box-shadow-medium);
+            text-align: left;
+            flex: 1;
+            min-width: 320px;
+            max-width: 48%;
+            box-sizing: border-box;
+        }
+
+        .testimonial-card .stars {
+            font-size: 20px;
+            color: var(--star-color);
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card p.quote {
+            font-size: 17px;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 25px;
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .reviewer-info .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 2px solid white;
+            box-shadow: var(--box-shadow-light);
+        }
+
+        .reviewer-details .name {
+            font-weight: 700;
+            color: var(--text-color);
+            font-size: 17px;
+            margin-bottom: 5px;
+        }
+
+        .reviewer-details .location {
+            font-size: 15px;
+            color: #666;
+        }
+
+        /* Section: More Features (from image 5) */
+        .more-features-section {
+            background-color: #fff;
+            padding: 60px 50px;
+            text-align: center;
+        }
+
+        .more-features-cards {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .more-feature-card {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--box-shadow-medium);
+            text-align: left;
+            flex: 1;
+            min-width: 320px;
+            max-width: 48%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .more-feature-card-image {
+            width: 100%;
+            height: 200px;
+            background-color: var(--section-bg-light);
+            border-radius: var(--card-border-radius);
+            overflow: hidden;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .more-feature-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .more-feature-card h3 {
+            font-size: 24px;
+            color: var(--text-color);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .more-feature-card p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .more-feature-card .arrow-link {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .more-feature-card .arrow-link:hover {
+            color: var(--button-hover-color);
+        }
+
+        .more-feature-card .arrow-link span {
+            margin-left: 8px;
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        /* Footer Section */
+        .footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text-color);
+            padding: 60px 50px 30px; /* Top, sides, bottom padding */
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 250px; /* Minimum width for columns */
+            margin-bottom: 30px; /* Space between columns when wrapped */
+        }
+
+        .footer-column:last-child {
+            margin-bottom: 0;
+        }
+
+        .footer-column .logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--footer-text-color);
+        }
+
+        .footer-column p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .footer-social-icons a {
+            color: var(--footer-text-color);
+            font-size: 24px;
+            margin-right: 15px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social-icons a:hover {
+            color: var(--primary-color); /* Lighten or change color on hover */
+        }
+
+        .footer-column h4 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--footer-text-color);
+            text-transform: uppercase;
+        }
+
+        .footer-info-item {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .footer-info-item a {
+            color: var(--footer-text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-info-item a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-input-group {
+            margin-bottom: 15px;
+        }
+
+        .footer-input-group input[type="email"] {
+            width: calc(100% - 20px);
+            padding: 12px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.2); /* Slightly transparent dark background */
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .footer-input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-upload-button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .footer-upload-button:hover {
+            background-color: var(--button-hover-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+                width: 90%;
+            }
+
+            .hero-left, .hero-right {
+                padding-right: 0;
+            }
+
+            .hero-left h1 {
+                font-size: 38px;
+            }
+
+            .header {
+                padding: 15px 20px;
+            }
+
+            .header-nav {
+                display: none;
+            }
+
+            .header-right {
+                gap: 15px;
+            }
+
+            .section-padding, .features-section, .detection-section, .testimonials-section, .more-features-section, .footer {
+                padding: 50px 30px;
+            }
+
+            .section-title {
+                font-size: 32px;
+                margin-bottom: 20px;
+            }
+
+            .section-subtitle {
+                margin-bottom: 30px;
+            }
+
+            .feature-blocks, .testimonial-cards, .detection-content, .more-features-cards, .footer-content {
+                flex-direction: column;
+                gap: 30px;
+                width: 90%;
+            }
+
+            .feature-block, .testimonial-card, .detection-image, .detection-features, .more-feature-card, .footer-column {
+                max-width: 100%;
+                margin-bottom: 0;
+                padding: 25px;
+            }
+
+            .features-image-container, .detection-image {
+                max-width: 90%;
+            }
+            .detection-features {
+                text-align: center;
+                padding: 0;
+            }
+            .detection-feature-item {
+                margin-bottom: 20px;
+            }
+            .more-feature-card {
+                align-items: center;
+                text-align: center;
+            }
+            .more-feature-card-image {
+                height: 180px;
+            }
+            .footer-column {
+                text-align: center; /* Center footer column content */
+            }
+            .footer-social-icons {
+                justify-content: center; /* Center social icons */
+                display: flex;
+            }
+            .footer-column p, .footer-info-item {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-left h1 {
+                font-size: 32px;
+            }
+
+            .hero-left p {
+                font-size: 16px;
+            }
+
+            .hero-right {
+                padding: 30px;
+            }
+
+            .header-icons {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+            .section-subtitle {
+                font-size: 16px;
+                margin-bottom: 25px;
+            }
+            .detection-feature-item h3, .more-feature-card h3 {
+                font-size: 20px;
+            }
+            .detection-feature-item p, .more-feature-card p {
+                font-size: 15px;
+            }
+            .testimonial-card p.quote {
+                font-size: 16px;
+            }
+            .reviewer-details .name {
+                font-size: 16px;
+            }
+            .reviewer-details .location {
+                font-size: 14px;
+            }
+            .more-feature-card-image {
+                height: 150px;
+            }
+            .footer-column h4 {
+                font-size: 18px;
+            }
+            .footer-column p, .footer-info-item, .footer-input-group input, .footer-upload-button {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-left .logo {
+                font-size: 20px;
+            }
+            .go-live-button {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            .hero-right {
+                padding: 20px;
+            }
+            .section-title {
+                font-size: 24px;
+            }
+            .feature-block h3 {
+                font-size: 20px;
+            }
+            .feature-block p {
+                font-size: 15px;
+            }
+            .testimonials-section, .more-features-section, .footer {
+                padding: 30px 15px;
+            }
+            .testimonial-card {
+                padding: 20px;
+            }
+            .testimonial-card .stars {
+                font-size: 18px;
+            }
+            .more-feature-card-image {
+                height: 120px;
+            }
+            .footer-column .logo {
+                font-size: 24px;
+            }
+            .footer-social-icons a {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <a href="/" class="logo">Safora</a>
+        </div>
+            <nav class="header-nav">
+                <a href="/">Home</a>
+                <a href="/upload">Upload</a>
+                <a href="/results">Results</a>
+                <a href="/about">About</a>
+                <a href="/login">Login</a>
+            </nav>
+            <button id="darkModeToggle" style="background: none; border: none; color: var(--dark-text); font-size: 24px; cursor: pointer; margin-left: 20px;">
+        <i class="fas fa-moon"></i> </button>
+        </div>
+    </header>
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="hero-left">
+                <div class="stars">★★★★★</div>
+                <h1>Ensure Safety with AI Detection</h1>
+                <p>Upload images to check safety gear compliance instantly and accurately.</p>
+                <a href="/upload" class="start-button">Start</a>
+            </div>
+            <div class="hero-right">
+                <form>
+                    <div class="form-group">
+                        <label for="firstName">Enter your first name</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Your first name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Enter your email address</label>
+                        <input type="email" id="email" name="email" placeholder="Your email address">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Your phone number">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Additional comments or requests</label>
+                        <textarea id="message" name="message" placeholder="Your message here"></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">Submit for analysis</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <h2 class="section-title">Ensuring Safety Through Smart Technology</h2>
+        <div class="feature-blocks">
+            <div class="feature-block">
+                <h3>Your Safety, Our Priority</h3>
+                <p>Our application uses AI to detect safety gear compliance, providing real-time feedback on helmet and boot usage. We aim to enhance workplace safety through innovative technology and user-friendly design.</p>
+            </div>
+            <div class="feature-block">
+                <h3>Innovative Safety Solutions</h3>
+                <p>Join us in promoting safety awareness. Our platform simplifies compliance checks, ensuring that everyone on-site is protected. Together, we can create safer work environments with advanced image recognition technology.</p>
+            </div>
+        </div>
+        <div class="features-image-container">
+            <img src="{{ url_for('static', filename='example_safety_gear_image.jpg') }}" alt="Safety Gear">
+        </div>
+    </section>
+
+    <section class="detection-section">
+        <h2 class="section-title">Safety Gear Detection</h2>
+        <p class="section-subtitle">Upload images to detect safety gear compliance in real-time with AI technology.</p>
+        <div class="detection-content">
+            <div class="detection-image">
+                <img src="{{ url_for('static', filename='PersonUsingDevice.jpg') }}" alt="Person using device for detection">
+            </div>
+            <div class="detection-features">
+                <div class="detection-feature-item">
+                    <h3>Instant Feedback Mechanism</h3>
+                    <p>Receive immediate feedback on safety gear compliance for enhanced workplace safety.</p>
+                </div>
+                <div class="detection-feature-item">
+                    <h3>Real-Time Detection Results</h3>
+                    <p>View compliance status for each person in uploaded images instantly.</p>
+                </div>
+                <div class="detection-feature-item">
+                    <h3>User-Friendly Interface</h3>
+                    <p>Enjoy a modern design for easy image uploads and results viewing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials-section">
+        <h2 class="section-title">Safety Detection</h2>
+        <p class="section-subtitle">Real-time helmet and boots detection for enhanced workplace safety.</p>
+        <div class="testimonial-cards">
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">Using this application has significantly improved our compliance with safety regulations. Highly recommend for any workplace!</p>
+                <div class="reviewer-info">
+                    <img src="{{ url_for('static', filename='JS.jpg') }}" alt="Jane Smith Avatar" class="avatar">
+                    <div class="reviewer-details">
+                        <div class="name">Jane Smith</div>
+                        <div class="location">Los Angeles</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">This app has transformed our safety checks. Fast, accurate, and user-friendly!</p>
+                <div class="reviewer-info">
+                    <img src="{{ url_for('static', filename='JD.jpg') }}" alt="John Doe Avatar" class="avatar">
+                    <div class="reviewer-details">
+                        <div class="name">John Doe</div>
+                        <div class="location">New York</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="more-features-section">
+        <h2 class="section-title">Safety Detection</h2>
+        <p class="section-subtitle">AI-powered app for helmet and boots detection in images.</p>
+        <div class="more-features-cards">
+            <div class="more-feature-card">
+                <div class="more-feature-card-image">
+                    <img src="{{ url_for('static', filename='example_alarm_image.jpg') }}" alt="Emergency Alarm">
+                </div>
+                <h3>Detection Results</h3>
+                <p>View safety gear compliance for each person in image.</p>
+                <a href="/results" class="arrow-link">
+                    View more
+                    <span>→</span>
+                </a>
+            </div>
+            <div class="more-feature-card">
+                <div class="more-feature-card-image">
+                    <img src="{{ url_for('static', filename='example_robot_image.jpg') }}" alt="AI Robot">
+                </div>
+                <h3>Real-time Analysis</h3>
+                <p>Instant feedback on safety gear status for uploaded images.</p>
+                <a href="/upload" class="arrow-link">
+                    Learn more
+                    <span>→</span>
+                </a>
+            </div>
+            <div class="more-feature-card">
+                <div class="more-feature-card-image">
+                    <img src="{{ url_for('static', filename='example_user_friendly_image.jpg') }}" alt="User-Friendly Interface">
+                </div>
+                <h3>User-Friendly UI</h3>
+                <p>Modern design for seamless image upload and results display.</p>
+                <a href="/" class="arrow-link">
+                    Explore
+                    <span>→</span>
+                </a>
+            </div>
+            <div class="more-feature-card">
+                <div class="more-feature-card-image">
+                    <img src="{{ url_for('static', filename='example_compliance_check_image.jpg') }}" alt="Compliance Check">
+                </div>
+                <h3>Compliance Check</h3>
+                <p>Ensure safety gear is worn correctly with visual feedback.</p>
+                <a href="/results" class="arrow-link">
+                    Details
+                    <span>→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <div class="logo">Safora</div>
+                <p>Upload images for helmet and boot detection.</p>
+                <div class="footer-social-icons">
+                    <a href="#">F</a> <a href="#">I</a> <a href="#">T</a> <a href="#">X</a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Results</h4>
+                <div class="footer-info-item">
+                    <a href="tel:+1234567890">+1234567890</a>
+                </div>
+                <div class="footer-info-item">
+                    <a href="mailto:projectsteelplant@gmail.com">projectsteelplant@gmail.com</a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Detection</h4>
+                <div class="footer-input-group">
+                    <input type="email" placeholder="Enter your email address here.">
+                </div>
+                <div class="footer-input-group">
+                    <input type="email" placeholder="Your email for notifications.">
+                </div>
+                <button class="footer-upload-button">Upload Image for Detection</button>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        const toggleButton = document.getElementById('darkModeToggle');
+        const currentTheme = localStorage.getItem('theme');
+
+        // Apply saved theme or default to light mode
+        if (currentTheme) {
+            document.body.classList.add(currentTheme);
+        } else {
+            document.body.classList.add('light-mode'); // Default to light if no preference
+        }
+
+        // Add click listener to the toggle button
+        if (toggleButton) {
+            toggleButton.addEventListener('click', () => {
+                let theme;
+                if (document.body.classList.contains('dark-mode')) {
+                    document.body.classList.remove('dark-mode');
+                    document.body.classList.add('light-mode');
+                    theme = 'light-mode';
+                } else {
+                    document.body.classList.remove('light-mode');
+                    document.body.classList.add('dark-mode');
+                    theme = 'dark-mode';
+                }
+                localStorage.setItem('theme', theme); // Save preference
+            });
+        }
+    });
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.header-nav a');
+            const currentPath = window.location.pathname.split('/').pop();
+
+            navLinks.forEach(link => {
+                // If the link's href matches the current file, add 'active' class
+                if (link.getAttribute('href') === currentPath ||
+                    (currentPath === 'index.html' && link.getAttribute('href') === 'home.html') || // Special handling for home/index
+                    (currentPath === '' && link.getAttribute('href') === 'index.html')) { // For root path
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Gear Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007bff; /* A blue for buttons/accents */
+            --secondary-color: #6c757d; /* Grey for secondary text */
+            --light-bg: #f8f9fa; /* Light background */
+            --dark-text: #343a40; /* Dark text */
+            --border-color: #dee2e6; /* Light border */
+            --footer-bg: #212529; 
+            --footer-text-color: #f8f9fa;
+        }
+
+          /* Dark Mode Variables */
+        body.dark-mode {
+        --primary-color: #90CAF9; /* Lighter blue for dark mode */
+        --secondary-color: #BBBBBB; /* Lighter grey */
+        --light-bg: #1a1a1a; /* Dark background */
+        --dark-text: #7393B3; /* Light text */
+        --border-color: #444444; /* Darker border */
+        --background-color: #121212; /* Very dark background */
+        --card-background: #1e1e1e; /* Darker card background */
+        --form-bg: rgba(40, 40, 40, 0.85); /* Darker transparent form */
+        --footer-bg: #0d0d0d; /* Even darker footer */
+        --footer-text-color: #E0E0E0; /* Light footer text */
+        /* Home.html specific variables */
+        --button-hover-color: #64B5F6;
+        --text-color: #E0E0E0;
+        --light-text-color: #222; /* Dark text on dark background */
+        --input-border-color: #555;
+        --section-bg-light: #1a1a1a;
+        --section-bg-blue: #263238;
+        --testimonial-card-bg: #263238;
+        --box-shadow-light: 0 2px 4px rgba(255, 255, 255, 0.1);
+        --box-shadow-medium: 0 4px 8px rgba(255, 255, 255, 0.1);
+        --box-shadow-strong: 0 4px 10px rgba(255, 255, 255, 0.15);
+
+        /* Specific overrides for elements with fixed colors */
+        .header, .feature-box, .image-item, .upload-form-card, .login-container {
+            background-color: var(--card-background) !important;
+            box-shadow: var(--box-shadow-medium) !important;
+        }
+
+        .hero-right { /* Specific for home.html form */
+            background-color: var(--form-bg) !important;
+        }
+
+        .about-text-content h2, .feature-box h3, .gallery-title, .contact-info h2, .upload-form-card h2, .login-container h2,
+        .hero-left h1, .hero-left p, .hero-right label, .section-title, .section-subtitle, .feature-block h3, .feature-block p,
+        .hero-section .section-title-wrapper h2, .hero-section .section-title-wrapper p, section h2, section h3, section p {
+            color: var(--dark-text) !important;
+        }
+
+        .navbar-brand, .nav-links a, .logo {
+            color: var(--dark-text) !important;
+        }
+
+        /* Adjust specific elements for better dark mode visibility */
+        .hero-right input[type="text"],
+        .hero-right input[type="email"],
+        .hero-right input[type="tel"],
+        .hero-right textarea,
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="text"],
+        .form-group textarea,
+        .form-group input[type="file"] {
+            background-color: #333;
+            color: var(--dark-text);
+            border-color: var(--input-border-color);
+        }
+        .hero-right input::placeholder,
+        .hero-right textarea::placeholder,
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #aaa;
+        }
+    }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #fff;
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header/Navbar */
+        header {
+             display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background-color: #fff;
+            box-shadow: var(--box-shadow-light);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        
+        .header-left .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-color);
+            text-decoration: none; /* Ensure logo link doesn't have underline */
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .header-nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            margin-left: 25px;
+            transition: color 0.3s ease;
+        }
+
+        .header-nav a:hover,
+        .header-nav a.active {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background-color: var(--light-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--dark-text);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--secondary-color);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Features/Info Sections */
+        .features-section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 60px 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-box {
+            background-color: #e6f7ff; /* Light blue background as seen in image */
+            border-radius: 8px;
+            padding: 30px;
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-box h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--dark-text);
+        }
+
+        .feature-box p {
+            font-size: 16px;
+            color: var(--secondary-color);
+            line-height: 1.5;
+        }
+
+        .feature-image {
+            margin-top: 20px;
+            width: 100%;
+            border-radius: 5px;
+            max-height: 200px;
+            object-fit: cover;
+        }
+
+        /* Image Gallery/Examples */
+        .gallery-section {
+            padding: 60px 20px;
+            text-align: center;
+            background-color: var(--light-bg);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .gallery-title {
+            font-size: 36px;
+            margin-bottom: 40px;
+            color: var(--dark-text);
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .image-item {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Upload Form Section (Contact Form) */
+        .upload-section {
+            padding: 60px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            align-items: flex-start; /* Align items to the top */
+        }
+
+        .contact-info {
+            flex: 1;
+            min-width: 250px;
+            max-width: 400px;
+            padding-right: 20px;
+        }
+
+        .contact-info h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: var(--dark-text);
+        }
+
+        .contact-info p {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        .contact-info strong {
+            display: block;
+            margin-top: 15px;
+            font-size: 20px;
+            color: var(--dark-text);
+        }
+
+        .contact-info a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .upload-form-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            flex: 2;
+            min-width: 400px;
+            max-width: 600px;
+        }
+
+        .upload-form-card h2 {
+            font-size: 32px;
+            margin-bottom: 25px;
+            color: var(--dark-text);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-text);
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea,
+        .form-group input[type="file"] { /* Added file input styling */
+            width: calc(100% - 20px);
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group textarea:focus,
+        .form-group input[type="file"]:focus {
+            border-color: var(--primary-color);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Image Upload Specific Styles */
+        .image-upload-section {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            flex: 2;
+            min-width: 400px;
+            max-width: 600px;
+            margin-left: auto; /* Push to the right if space allows */
+            margin-right: auto;
+            text-align: center;
+        }
+
+        .image-upload-section h2 {
+            font-size: 32px;
+            margin-bottom: 25px;
+            color: var(--dark-text);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column; /* Align items vertically */
+            align-items: center;
+            justify-content: center;
+            min-height: 200px; /* Increased height for better visual */
+            position: relative; /* For absolute positioning of children */
+            overflow: hidden; /* Hide overflow from image */
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background-color: var(--light-bg);
+        }
+
+        .upload-area input[type="file"] {
+            display: none; /* Hide the default file input */
+        }
+
+        .upload-content { /* Container for text and icon */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            position: absolute; /* Position over the image if needed, or just let it flow */
+            top: 0;
+            left: 0;
+            z-index: 1; /* Ensure text is above image when visible */
+        }
+
+        .upload-area p {
+            margin: 10px 0 0; /* Adjusted margin */
+            color: var(--secondary-color);
+            font-size: 18px;
+        }
+
+        .upload-area i {
+            font-size: 40px;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        #imagePreview {
+            width: 100%; /* Make image fill the upload area */
+            height: 100%; /* Make image fill the upload area */
+            object-fit: contain; /* Ensure image fits well without cropping */
+            border-radius: 8px;
+            display: none; /* Hidden by default */
+            position: absolute; /* Cover the whole area */
+            top: 0;
+            left: 0;
+            z-index: 0; /* Ensure image is behind text when text is visible */
+        }
+
+        .detect-btn {
+            background-color: #28a745; /* Green for detection */
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .detect-btn:hover {
+            background-color: #218838;
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text-color);
+            padding: 40px 0;
+            text-align: left;
+        }
+
+        .footer .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            align-items: flex-start; /* Align grid items to the start */
+            justify-content: space-between;
+        }
+
+        .footer-col {
+            padding: 0 10px; /* Add some padding for columns */
+        }
+
+        .footer-col h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--footer-text-color);
+            font-weight: 700;
+        }
+
+        .footer-col p, .footer-col a {
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--footer-text-color);
+            text-decoration: none;
+        }
+
+        .footer-col a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-social-links {
+            margin-top: 20px;
+        }
+
+        .footer-social-links a {
+            color: var(--footer-text-color);
+            font-size: 24px;
+            margin-right: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-input-group {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-input-group input[type="email"] {
+            width: calc(100% - 20px); /* Account for padding */
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .footer-input-group input[type="email"]::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-input-group button {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            width: fit-content;
+        }
+
+        .footer-input-group button:hover {
+            background-color: #0056b3;
+        }
+
+        .footer-copyright {
+            grid-column: 1 / -1; /* Span across all columns */
+            text-align: center;
+            margin-top: 40px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-links {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .nav-links li {
+                margin: 0 15px 10px;
+            }
+            .go-live-btn {
+                margin-top: 15px;
+            }
+            .hero h1 {
+                font-size: 36px;
+            }
+            .hero p {
+                font-size: 16px;
+            }
+            .features-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            .upload-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            .contact-info, .upload-form-card, .image-upload-section {
+                min-width: unset;
+                max-width: 100%;
+                padding-right: 0;
+            }
+            .upload-form-card, .image-upload-section {
+                padding: 25px;
+            }
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .social-icons {
+                margin-top: 10px;
+                margin-bottom: 20px;
+            }
+            .social-icons a {
+                margin: 0 10px;
+            }
+            .footer-email-input {
+                align-items: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <a href="/" class="logo">Safora</a>
+        </div>
+            <nav class="header-nav">
+                <a href="/">Home</a>
+                <a href="/upload">Upload</a>
+                <a href="/results">Results</a>
+                <a href="/about">About</a>
+                <a href="/login">Login</a>
+            </nav>
+            <button id="darkModeToggle" style="background: none; border: none; color: var(--dark-text); font-size: 24px; cursor: pointer; margin-left: 20px;">
+        <i class="fas fa-moon"></i> </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Safety Gear Detection</h1>
+                <p>Upload images to check if the individuals in the photo wear safety gear correctly.</p>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="feature-box">
+                <h3>Real-Time Analysis</h3>
+                <p>Instant feedback on safety gear compliance with visual indicators and a summary for each individual detected.</p>
+                <img src="{{ url_for('static', filename='text=Real-Time+Analysis+Image.jpg') }}" class="feature-image">
+            </div>
+            <div class="feature-box">
+                <h3>Detection Results</h3>
+                <p>View detailed results for each person detected in the uploaded image regarding safety gear compliance.</p>
+                <img src="{{ url_for('static', filename='text=Detection+Results+Image.jpg') }}" class="feature-image">
+            </div>
+        </section>
+
+        <section class="gallery-section">
+            <div class="container">
+                <h2 class="gallery-title">Safety Detection Examples</h2>
+                <div class="image-grid">
+                    <div class="image-item">
+                        <img src="{{ url_for('static', filename='image_3974aa.jpg') }}" alt="Safety Image 1">
+                    </div>
+                    <div class="image-item">
+                        <img src="{{ url_for('static', filename='image_3974c5.jpg') }}" alt="Safety Image 2">
+                    </div>
+                    <div class="image-item">
+                        <img src="{{ url_for('static', filename='text=Example+Image+3.jpg') }}" alt="Safety Image 3">
+                    </div>
+                    <div class="image-item">
+                        <img src="{{ url_for('static', filename='text=Example+Image+4.jpg') }}" alt="Safety Image 4">
+                    </div>
+                    <div class="image-item">
+                        <img src="{{ url_for('static', filename='text=Example+Image+5.jpg') }}" alt="Safety Image 5">
+                    </div>
+                    <div class="image-item">
+                        <img src="{{ url_for('static', filename='text=Example+Image+6.jpg') }}" alt="Safety Image 6">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+       <section class="image-upload-section container">
+    <h2>Upload Image for YOLOv8 Detection</h2>
+    <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data">
+        <div class="upload-area" id="uploadArea">
+            <input type="file" name="file" id="imageUpload" accept="image/*"> 
+            <div class="upload-content" id="uploadContent">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Drag & Drop your image here, or click to browse</p>
+            </div>
+            <img id="imagePreview" src="#" alt="Image Preview" style="display: none;">
+        </div>
+        <button type="submit" class="detect-btn" id="detectImageBtn">Detect Safety Gear (YOLOv8)</button>
+    </form>
+    </section>
+
+        <section class="upload-section">
+            <div class="contact-info">
+                <h2>Safety Gear Detection <br> Upload</h2>
+                <p>Upload your image for AI analysis to check safety gear compliance.</p>
+                <p>Get instant feedback on helmet and boot usage.</p>
+                <strong>Contact</strong>
+                <p>1234567890</p>
+                <strong>Support</strong>
+                <p><a href="mailto:projectsteelplant@gmail.com">projectsteelplant@gmail.com</a></p>
+            </div>
+            <div class="upload-form-card">
+                <h2>Enter your details</h2>
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="firstName">Enter your first name*</label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Type your first name here" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Enter your email address*</label>
+                        <input type="email" id="email" name="email" placeholder="Type your email here" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Enter your message here*</label>
+                        <textarea id="message" name="message" placeholder="Type your message here" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Submit your information now</button>
+                </form>
+            </div>
+        </section>
+    </main>
+<footer class="footer">
+        <div class="container">
+            <div class="footer-col">
+                <h3>Safora</h3>
+                <p>Upload images for helmet and boot detection.</p>
+                <div class="footer-social-links">
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/facebook-new.png" alt="Facebook"></a>
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new--v1.png" alt="Instagram"></a>
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/tiktok--v1.png" alt="TikTok"></a>
+                    <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/twitter-squared.png" alt="Twitter/X"></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>RESULTS</h3>
+                <p>+1234567890</p>
+                <p>projectsteelplant@gmail.com</p>
+            </div>
+            <div class="footer-col">
+                <h3>DETECTION</h3>
+                <div class="footer-input-group">
+                    <input type="email" placeholder="Enter your email address here">
+                    <input type="email" placeholder="Your email for notifications">
+                    <button>Upload Image for Detection</button>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2025 All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+ <div id="customMessageBox"></div>
+
+    <script>
+        /**
+         * Displays a custom message box at the top of the screen.
+         * The message box fades out after 3 seconds.
+         * @param {string} message - The message to display.
+         */
+        function showMessageBox(message) {
+            let messageBox = document.getElementById('customMessageBox');
+            if (!messageBox) {
+                messageBox = document.createElement('div');
+                messageBox.id = 'customMessageBox';
+                messageBox.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background-color: #333;
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                    z-index: 9999;
+                    opacity: 0;
+                    transition: opacity 0.3s ease-in-out;
+                    font-family: 'Roboto', sans-serif;
+                    font-size: 16px;
+                `;
+                document.body.appendChild(messageBox);
+            }
+            messageBox.textContent = message;
+            messageBox.style.opacity = '1';
+
+            setTimeout(() => {
+                messageBox.style.opacity = '0';
+            }, 3000); // Message disappears after 3 seconds
+        }
+
+        /**
+         * Toggles the dark mode on and off.
+         * Saves the user's preference to local storage.
+         */
+        function toggleDarkMode() {
+            const body = document.body;
+            let theme;
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode'); // Explicitly add light-mode for clarity
+                theme = 'light-mode';
+            } else {
+                body.classList.remove('light-mode'); // Remove light-mode if present
+                body.classList.add('dark-mode');
+                theme = 'dark-mode';
+            }
+            localStorage.setItem('theme', theme); // Save preference
+            showMessageBox(`Theme changed to ${theme.replace('-', ' ')}!`);
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const currentTheme = localStorage.getItem('theme');
+
+        // Apply saved theme or default to light mode
+        if (currentTheme) {
+            document.body.classList.add(currentTheme);
+        } else {
+            document.body.classList.add('light-mode'); // Default to light if no preference
+        }
+
+        // Add click listener to the toggle button
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+        }
+
+        // Navigation active state
+        const navLinks = document.querySelectorAll('.header-nav a');
+        const currentPath = window.location.pathname.split('/').pop();
+
+        navLinks.forEach(link => {
+            // Determine the correct path to check against
+            let linkPath = link.getAttribute('href').replace('/', ''); // Remove leading slash for comparison
+            if (linkPath === '' || linkPath === 'index.html') { // Treat root path and index.html as 'home'
+                linkPath = 'home'; // Assuming your home route's path is 'home' or similar for direct comparison
+            }
+            // For '/upload', '/results', '/about', '/login', currentPath will be 'upload', 'results', etc.
+            if (currentPath === linkPath) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+            // Image Upload and Preview functionality
+            const uploadArea = document.getElementById('uploadArea');
+            const imageUpload = document.getElementById('imageUpload');
+            const imagePreview = document.getElementById('imagePreview');
+            const uploadContent = document.getElementById('uploadContent'); // Reference to the content div
+            // const detectImageBtn = document.getElementById('detectImageBtn'); // No longer needed if submitting via form
+
+            // Simulate click on hidden file input when upload area is clicked
+            if (uploadArea) { // Ensure uploadArea exists
+                uploadArea.addEventListener('click', () => {
+                    imageUpload.click();
+                });
+            }
+
+            // Handle file selection
+            if (imageUpload) { // Ensure imageUpload exists
+                imageUpload.addEventListener('change', function() {
+                    const file = this.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            imagePreview.src = e.target.result;
+                            imagePreview.style.display = 'block'; // Show the image preview
+                            uploadContent.style.display = 'none'; // Hide the text and icon
+                            // detectImageBtn.disabled = false; // No longer needed
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        imagePreview.src = '#';
+                        imagePreview.style.display = 'none'; // Hide if no file selected
+                        uploadContent.style.display = 'flex'; // Show the text and icon
+                        // detectImageBtn.disabled = true; // No longer needed
+                    }
+                });
+            }
+
+            // Handle drag over
+            if (uploadArea) {
+                uploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    uploadArea.style.borderColor = 'var(--primary-color)';
+                    uploadArea.style.backgroundColor = 'var(--light-bg)';
+                });
+            }
+
+            // Handle drag leave
+            if (uploadArea) {
+                uploadArea.addEventListener('dragleave', () => {
+                    uploadArea.style.borderColor = 'var(--border-color)';
+                    uploadArea.style.backgroundColor = '#fff';
+                });
+            }
+
+            // Handle drop
+            if (uploadArea) {
+                uploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    uploadArea.style.borderColor = 'var(--border-color)';
+                    uploadArea.style.backgroundColor = '#fff';
+
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        imageUpload.files = files; // Assign dropped files to the input
+                        const event = new Event('change'); // Trigger change event
+                        imageUpload.dispatchEvent(event);
+                    }
+                });
+            }
+
+            // --- IMPORTANT CHANGE FOR FORM SUBMISSION ---
+            // Remove the fetch API call for submitting the image.
+            // Let the form handle the submission directly to Flask.
+            // Your Flask app will then redirect to /results.
+            const imageUploadForm = document.getElementById('imageUploadForm');
+            if (imageUploadForm) {
+                imageUploadForm.addEventListener('submit', function(event) {
+                    // You can optionally add a loading message here
+                    showMessageBox('Uploading and processing image...');
+                    // No event.preventDefault() because we want the form to submit normally
+                    // No manual fetch, just let the browser do its job.
+                });
+            }
+            // END IMPORTANT CHANGE
+
+            // --- Remove the sessionStorage.setItem('uploadedImage', e.target.result); ---
+            // This was causing the base64 image to overwrite the detected image on the results page.
+            // It's no longer needed for the preview, and Flask will handle passing the detected image URL.
+
+            // Handle form submission for contact section (simulated)
+            const contactForm = document.querySelector('.upload-form-card form'); // Select the form within the card
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Prevent default form submission
+
+                    // Basic validation example
+                    const firstName = document.getElementById('firstName').value.trim();
+                    const emailAddress = document.getElementById('email').value.trim(); // Corrected ID to 'email'
+                    const message = document.getElementById('message').value.trim();
+
+                    if (emailAddress === '' || message === '') {
+                        showMessageBox('Please fill in all required fields (Email and Message).');
+                        return;
+                    }
+
+                    // Optional: More advanced email validation
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(emailAddress)) {
+                        showMessageBox('Please enter a valid email address.');
+                        return; // Stop if email is invalid
+                    }
+
+                    // Log form data to console (simulating data handling)
+                    console.log('--- Contact Form Submission ---');
+                    console.log('First Name:', firstName);
+                    console.log('Email Address:', emailAddress);
+                    console.log('Message:', message);
+                    console.log('-------------------------------');
+
+                    showMessageBox('Thank you for your message! We will get back to you soon.');
+                    contactForm.reset(); // Clear the form
+                });
+            }
+
+            // Handle footer email input and button (simulated)
+            const footerUploadButton = document.querySelector('.footer-input-group button');
+            if (footerUploadButton) {
+                footerUploadButton.addEventListener('click', function() {
+                    const emailField1 = this.previousElementSibling; // The second email input
+                    const emailField2 = emailField1.previousElementSibling; // The first email input
+
+                    if (emailField1.value && emailField2.value) {
+                        console.log('Footer Upload Email 1:', emailField2.value);
+                        console.log('Footer Upload Email 2 (for notifications):', emailField1.value);
+                        showMessageBox('Image upload request received for these emails. (This is a demo)');
+                        emailField1.value = '';
+                        emailField2.value = '';
+                    } else {
+                        showMessageBox('Please enter both email addresses for detection notifications.');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
